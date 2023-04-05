@@ -1,4 +1,4 @@
-@minLength(2)
+@minLength(3)
 @description('The location to use for the deployment. defaults to Resource Groups location.')
 param location string = resourceGroup().location
 
@@ -1307,7 +1307,7 @@ keyVaultKmsCreateAndPrereqs || !empty(keyVaultKmsByoKeyId) ? azureKeyVaultKms : 
 !empty(managedNodeResourceGroup) ? {  nodeResourceGroup: managedNodeResourceGroup} : {}
 )
 
-resource aks 'Microsoft.ContainerService/managedClusters@2022-11-02-preview' = {
+resource aks 'Microsoft.ContainerService/managedClusters@2023-02-02-preview' = {
   name: 'aks-${resourceName}'
   location: location
   properties: aksProperties
@@ -1325,7 +1325,7 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-11-02-preview' = {
     type: 'SystemAssigned'
   }
   sku: {
-    name: 'Basic'
+    name: 'Base'
     tier: akssku
   }
   dependsOn: [
@@ -1520,7 +1520,7 @@ resource AksDiags 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' =  
   }
 }
 
-resource sysLog 'Microsoft.Insights/dataCollectionRules@2021-09-01-preview' = if (createLaw && omsagent && enableSysLog) {
+resource sysLog 'Microsoft.Insights/dataCollectionRules@2022-06-01' = if (createLaw && omsagent && enableSysLog) {
   name: 'MSCI-${location}-${aks.name}'
   location: location
   kind: 'Linux'
@@ -1603,7 +1603,7 @@ resource sysLog 'Microsoft.Insights/dataCollectionRules@2021-09-01-preview' = if
   }
 }
 
-resource association 'Microsoft.Insights/dataCollectionRuleAssociations@2021-09-01-preview' = if (createLaw && omsagent && enableSysLog) {
+resource association 'Microsoft.Insights/dataCollectionRuleAssociations@2022-06-01' = if (createLaw && omsagent && enableSysLog) {
   name: '${aks.name}-${aks_law.name}-association'
   scope: aks
   properties: {

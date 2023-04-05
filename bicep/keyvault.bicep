@@ -1,4 +1,4 @@
-@minLength(2)
+@minLength(3)
 @description('The location to use for the deployment. defaults to Resource Groups location.')
 param location string = resourceGroup().location
 
