@@ -135,7 +135,7 @@ module network './network.bicep' = if (custom_vnet) {
     ingressApplicationGateway: ingressApplicationGateway
     vnetAppGatewaySubnetAddressPrefix: vnetAppGatewaySubnetAddressPrefix
     azureFirewalls: azureFirewalls
-    azureFirewallsSku: azureFirewallSku
+    azureFirewallSku: azureFirewallSku
     vnetFirewallSubnetAddressPrefix: vnetFirewallSubnetAddressPrefix
     vnetFirewallManagementSubnetAddressPrefix: vnetFirewallManagementSubnetAddressPrefix
     privateLinks: privateLinks
@@ -844,7 +844,7 @@ output ApplicationGatewayName string = deployAppGw ? appgw.name : ''
 param dnsPrefix string = '${resourceName}-dns'
 
 @description('Kubernetes Version')
-param kubernetesVersion string = '1.24.9'
+param kubernetesVersion string = '1.25.6'
 
 @description('Enable Azure AD integration on AKS')
 param enable_aad bool = false
@@ -1155,7 +1155,7 @@ var agentPoolProfiles = JustUseSystemPool ? array(systemPoolBase) : concat(array
 output userNodePoolName string = nodePoolName
 output systemNodePoolName string = JustUseSystemPool ? nodePoolName : 'npsystem'
 
-var akssku = AksPaidSkuForSLA ? 'Paid' : 'Free'
+var akssku = AksPaidSkuForSLA ? 'Standard' : 'Free'
 
 var aks_addons = union({
   azurepolicy: {
